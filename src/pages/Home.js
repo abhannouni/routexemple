@@ -1,7 +1,4 @@
-import { useNavigate } from "react-router-dom"
-
 export const Home = () => {
-    const navigate = useNavigate()
     return (
         <>
             <div className="contain">
@@ -22,7 +19,6 @@ export const Home = () => {
                     TemporibudLorem ipsum 
                 </p>
             </div>
-            <button onClick={(() => navigate('order'))} >order</button>
         </>
     )
 }

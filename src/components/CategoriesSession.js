@@ -1,36 +1,39 @@
 import React from 'react';
-import { Outlet, useParams ,useOutletContext } from 'react-router-dom';
-import { CategoryContext } from "../pages/Categories";
+import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { getCategory } from '../api/api';
 
 export const CategoriesSession = () => {
-  const { title } = useParams();
-  // const data  = useOutletContext();
-  const data = useOutletContext(CategoryContext);
-  console.log(data);
+  const { sessions } = useParams();
+  const data = getCategory(sessions);
+
+  const navLinkStyles = ({ isActive }) => {
+    return {
+      border: isActive ? '2px solid #5F9EA0' : '2px solid black',
+      color: isActive ? '#5F9EA0' : 'gray',
+    };
+  };
 
   return (
     <>
-      <h2>{title}</h2>
       {data ? (
-        <div className="div-as-button">
-          <div className="button-session">
-            <p className="bold-size">{data.name}</p>
-            <p>{data.id}</p>
+        <>
+          <h2>{data.name}</h2>
+          <div className="div-as-button">
+            {data.sessions.map((session) => (
+              <NavLink
+                to={session.id}
+                style={navLinkStyles}
+                className='button-session'
+                key={session.id}
+              >
+                <p className="bold-size">{session.name}</p>
+                <p>{session.id}</p>
+              </NavLink>
+            ))}
           </div>
-          <div className="button-session">
-            <p className="bold-size">{data.name}</p>
-            <p>{data.id}</p>
-          </div>
-        </div>
+        </>
       ) : (
-        <div className="loader">
-          <div className="wrapper">
-            <div className="line-1"></div>
-            <div className="line-2"></div>
-            <div className="line-3"></div>
-            <div className="line-4"></div>
-          </div>
-      </div>
+        <p>Loading or no data available...</p>
       )}
       <Outlet />
     </>

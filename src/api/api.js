@@ -241,17 +241,17 @@ export function getCategories() {
   return categories.map(({id, name}) => ({id,name}));
 }
 
-// function getSession(id,id_session) {
-//   var cat = getCategory(id);
-//   if(!cat){
-//       console.log("id does not exist");
-//       return;
-//   }
-//   var cat_session = cat[0].sessions.filter((item) => item.id.includes(id_session));
-//   if(cat_session[0].id !== id_session){
-//       console.log("session does not exist");
-//       return;
-//   }
-//   console.log(cat_session[0]);
-// }
+export function getSession(id,id_session) {
+  var cat = getCategory(id);
+  if(!cat){
+      // console.log("id does not exist");
+      return undefined;
+  }
+  var cat_session = cat.sessions.find((item) => item.id.includes(id_session));
+  if(cat_session.id !== id_session){
+      // console.log("session does not exist");
+      return undefined;
+  }
+  return cat_session;
+}
 

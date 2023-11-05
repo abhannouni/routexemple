@@ -1,27 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getSession } from '../api/api';
 
 export const CategoriesSubSession = () => {
+  const { sessions, subsessions } = useParams();
+  const [data, setData] = useState(getSession(sessions, subsessions));
+
+  useEffect(() => {
+    setData(getSession(sessions, subsessions));
+  }, [subsessions, sessions]);
+
+  if (!data) {
+    return <p>Loading or no data available...</p>;
+  }
+
   return (
     <>
-        <h2>Homebuilduing and 3D Printing</h2>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisci tempor incidunt ut labore et dolore magna aliqua veniam,
-            quis nostrund exercitation ullamcorpor s commodo consequat. Duis autem vel eum irrure esse molestiae consequat,
-            vel illum dolore eu fugi et iusto odio dignissim qui blandit praesent luptat exceptur sint occaecat cupiditat
-            non provident, deserunt mollit anim id est laborum et dolor fuga distinct. Nam liber tempor cum soluta nobis
-            elige quod maxim placeat facer possim omnis voluptLorem ipsum dolor si amet, consectetur adipiscing incidunt
-            ut labore et dolore magna aliquam erat nostrud exercitation ullamcorper suscipit laboris nis duis autem vel
-            eum irure dolor in reprehenderit i, dolore eu fugiat nulla pariatur. At vero eos et accusa praesant luptatum
-            delenit aigue duos dolor et mole provident, simil tempor sunt in culpa qui officia de fuga. Et harumd dereud
-            facilis est er expedit disti eligend optio congue nihil impedit doming id quod assumenda est, omnis dolor repellend.
-            TemporibudLorem ipsum 
-        </p>
-        <h5>Griffin Snow</h5>
-        <p>azertyu</p>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisci tempor incidunt ut labore et dolore magna aliqua veniam,
-            quis nostrund exercitation ullamcorpor s commodo consequat. Duis autem vel eum irrure esse molestiae consequat
-        </p>
+      <h2>{data.name}</h2>
+      <p>{data.desc}</p>
+      <h5>{data.speaker.name}</h5>
+      <p>{data.speaker.title} at {data.speaker.org}</p>
+      <p>{data.speaker.bio}</p>
     </>
-  )
-}
+  );
+};
